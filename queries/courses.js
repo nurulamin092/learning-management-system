@@ -3,10 +3,30 @@ import { Category } from "@/model/category-model";
 import { User } from "@/model/user-model";
 import { Testimonial } from "@/model/testimonial-model";
 import { Module } from "@/model/modules-model";
+import { replaceMongoIdInArray } from "@/lib/convertData";
+
+// export async function getCourseList() {
+//     const courses = await Course.find({})
+//         .select(["title", "subtitle", "thumbnail", "modules", "price", "category", "instructor"])
+//         .populate({
+//             path: "category",
+//             model: Category
+//         }).populate({
+//             path: "instructor",
+//             model: User
+//         }).populate({
+//             path: "testimonials",
+//             model: Testimonial
+//         }).populate({
+//             path: "modules",
+//             model: Module
+//         }).lean();
+//     return replaceMongoIdInArray(courses);
+// }
 
 export async function getCourseList() {
     const courses = await Course.find({})
-        .select(["title", "thumbnail", "modules", "price", "category", "instructor"])
+        .select(["title", "subtitle", "thumbnail", "modules", "price", "category", "instructor"])
         .populate({
             path: "category",
             model: Category
@@ -14,11 +34,11 @@ export async function getCourseList() {
             path: "instructor",
             model: User
         }).populate({
-            path: "modules",
-            model: Module
-        }).populate({
             path: "testimonials",
             model: Testimonial
+        }).populate({
+            path: "modules",
+            model: Module
         }).lean();
-    return courses
+    return replaceMongoIdInArray(courses);
 }
