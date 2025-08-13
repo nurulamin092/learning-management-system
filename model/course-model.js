@@ -5,6 +5,10 @@ const courseSchema = new Schema({
         required: true,
         type: String
     },
+    subtitle: {
+        required: true,
+        type: String
+    },
     description: {
         required: true,
         type: String
@@ -13,31 +17,39 @@ const courseSchema = new Schema({
         required: true,
         type: String
     },
-    modules: [
-        { type: Schema.ObjectId, ref: "Module" }
-    ],
+    modules: [{ type: Schema.ObjectId, ref: "Module" }],
+
     price: {
-        require: true,
+        required: true,
         type: Number
     },
     active: {
         required: true,
         type: Boolean
     },
-    category: {
-        type: Schema.ObjectId, ref: "Category"
+
+    category: { type: Schema.ObjectId, ref: "Category" },
+
+    instructor: { type: Schema.ObjectId, ref: "User" },
+
+    quizSet: { type: Schema.ObjectId, ref: "Quizset" },
+
+    testimonials: [{ type: Schema.ObjectId, ref: "Testimonial" }],
+
+    learning: {
+        required: true,
+        type: [String]
     },
-    instructor: {
-        type: Schema.ObjectId, ref: "User",
+
+    createdOn: {
+        required: true,
+        type: Date
     },
-    quizzes: {
-        require: false,
-        type: Schema.ObjectId
-    },
-    testimonials: [{
-        type: Schema.ObjectId, ref: "Testimonial"
-    }]
+
+    modifiedOn: {
+        required: true,
+        type: Date
+    }
 });
 
-
-export const Course = mongoose.models.Course ?? mongoose.model("Course", courseSchema)
+export const Course = mongoose.models.Course ?? mongoose.model("Course", courseSchema);
