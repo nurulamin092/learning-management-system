@@ -2,39 +2,43 @@ import mongoose, { Schema } from "mongoose";
 
 const userSchema = new Schema({
     firstName: {
-        require: true,
+        required: true,
         type: String
     },
     lastName: {
-        require: true,
+        required: true,
         type: String
     },
     password: {
-        require: true,
+        required: true,
         type: String
     },
     email: {
-        require: true,
+        required: true,
         type: String
     },
     phone: {
-        require: true,
+        required: true,
         type: String
     },
     role: {
-        require: true,
+        required: true,
         type: String
     },
     bio: {
-        require: false,
+        required: false,
         type: String
     },
     socialMedia: {
-        require: false,
+        required: false,
         type: Object
     },
     profilePicture: {
-        require: false,
+        required: false,
+        type: String
+    },
+    designation: {
+        required: false,
         type: String
     }
 
