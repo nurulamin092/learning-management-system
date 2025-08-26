@@ -2,7 +2,6 @@ import { CheckCheck } from "lucide-react";
 import React from "react";
 
 const CourseOverview = ({ course }) => {
-  console.log(course);
   return (
     <>
       <h3 className=" text-2xl">Course Description</h3>

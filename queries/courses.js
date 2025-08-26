@@ -2,28 +2,13 @@ import { Course } from "@/model/course-model";
 import { Category } from "@/model/category-model";
 import { User } from "@/model/user-model";
 import { Testimonial } from "@/model/testimonial-model";
-import { Module } from "@/model/modules-model";
-import { replaceMongoIdInArray, replaceMongoIdInObject } from "@/lib/convertData";
-import { getEnrollmentsForCourse } from "./enrollment";
 
-// export async function getCourseList() {
-//     const courses = await Course.find({})
-//         .select(["title", "subtitle", "thumbnail", "modules", "price", "category", "instructor"])
-//         .populate({
-//             path: "category",
-//             model: Category
-//         }).populate({
-//             path: "instructor",
-//             model: User
-//         }).populate({
-//             path: "testimonials",
-//             model: Testimonial
-//         }).populate({
-//             path: "modules",
-//             model: Module
-//         }).lean();
-//     return replaceMongoIdInArray(courses);
-// }
+
+import { replaceMongoIdInArray, replaceMongoIdInObject } from "@/lib/convertData";
+
+import { Module } from "@/model/module-model";
+import { getTestimonialsForCourse } from "./testimonials";
+import { getEnrollmentsForCourse } from "./enrollment";
 
 export async function getCourseList() {
     const courses = await Course.find({})
@@ -36,10 +21,7 @@ export async function getCourseList() {
             model: User
         }).populate({
             path: "testimonials",
-            model: Testimonial, populate: {
-                path: "user",
-                model: User
-            }
+            model: Testimonial
         }).populate({
             path: "modules",
             model: Module
@@ -69,7 +51,6 @@ export async function getCourseDetails(id) {
 
     return replaceMongoIdInObject(course)
 }
-
 export async function getCourseDetailsByInstructor(instructorId) {
     const courses = await Course.find({ instructor: instructorId }).lean();
 
@@ -80,29 +61,27 @@ export async function getCourseDetailsByInstructor(instructorId) {
         })
     );
 
-
     const totalEnrollments = enrollments.reduce((item, currentValue) => {
         return item.length + currentValue.length;
-    }, 0);
-
+    });
 
     const testimonials = await Promise.all(
         courses.map(async (course) => {
-            const testimonial = await getEnrollmentsForCourse(course._id.toString())
+            const testimonial = await getTestimonialsForCourse(course._id.toString());
             return testimonial;
         })
-    )
+    );
 
     const totalTestimonials = testimonials.flat();
-
     const avgRating = (totalTestimonials.reduce(function (acc, obj) {
         return acc + obj.rating;
     }, 0)) / totalTestimonials.length;
+
 
     return {
         "courses": courses.length,
         "enrollments": totalEnrollments,
         "reviews": totalTestimonials.length,
-        "rating": avgRating.toPrecision(2)
+        "ratings": avgRating.toPrecision(2)
     }
 }

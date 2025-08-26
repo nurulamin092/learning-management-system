@@ -4,12 +4,9 @@ import { MessageSquare, Presentation, Star, UsersRound } from "lucide-react";
 const CourseInstructor = async ({ course }) => {
   const instructor = course?.instructor;
   const fullName = `${instructor?.firstName}  ${instructor?.lastName}`;
-
   const courseDetailsByInstructor = await getCourseDetailsByInstructor(
-    instructor?._id.toString()
+    instructor._id.toString()
   );
-
-  console.log(courseDetailsByInstructor);
 
   return (
     <div className="bg-gray-50 rounded-md p-8">
@@ -25,12 +22,12 @@ const CourseInstructor = async ({ course }) => {
           <div className="max-w-[300px]">
             <h4 className="text-[34px] font-bold leading-[51px]">{fullName}</h4>
             <div className="text-gray-600 font-medium mb-6">
-              Senior Software Engineer
+              {instructor?.designation}
             </div>
             <ul className="list space-y-4">
               <li className="flex items-center space-x-3">
                 <Presentation className="text-gray-600" />
-                <div>{courseDetailsByInstructor?.courses}</div>
+                <div>{courseDetailsByInstructor?.courses} Course(s)</div>
               </li>
               <li className="flex space-x-3">
                 <UsersRound className="text-gray-600" />
@@ -44,7 +41,7 @@ const CourseInstructor = async ({ course }) => {
               </li>
               <li className="flex space-x-3">
                 <Star className="text-gray-600" />
-                <div>{courseDetailsByInstructor?.rating} Average Rating</div>
+                <div>{courseDetailsByInstructor?.ratings} Average Rating</div>
               </li>
             </ul>
           </div>
