@@ -31,11 +31,11 @@ const Testimonials = ({ testimonials }) => {
                 <div className="sm:break-inside-avoid">
                   <blockquote className="rounded-lg bg-gray-50 p-6  sm:p-8 shadow-sm">
                     <div className="flex items-center gap-4">
-                      <img
-                        alt=""
+                      <Image
                         src={testimonial?.user?.profile_picture}
-                        width="56"
-                        height="56"
+                        width={56}
+                        height={56}
+                        alt={testimonial?.user?.first_name}
                         className="size-14 rounded-full object-cover"
                       />
                       <div>
