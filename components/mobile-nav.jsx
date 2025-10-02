@@ -11,7 +11,7 @@ import {
 } from "./ui/dropdown-menu";
 import { Button, buttonVariants } from "./ui/button";
 import { useSession } from "next-auth/react";
-import { useCommandState } from "cmdk";
+import { redirect } from "next/navigation";
 
 export function MobileNav({ items, children }) {
   useLockBody();
@@ -20,6 +20,9 @@ export function MobileNav({ items, children }) {
 
   const [loginSession, setLoginSession] = useState(null);
 
+  if (session?.error === "RefreshAccessTokenError") {
+    redirect("/login");
+  }
   useEffect(() => {
     setLoginSession(session);
   }, [session]);
